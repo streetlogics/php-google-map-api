@@ -1,26 +1,36 @@
 #labels Featured,Phase-Implementation
 ==Changes from 2.5==
-  * Updated to use Google Maps API v3
-    * Update Polyline handling with new API v3 methods.
+  * Updated to use *Google Maps API v3*
+    * Update *Polyline handling* with new API v3 methods.
       * A new paramter ($id) was added in both of the polyline "add" methods.
       * Please make sure to update your apps that are using the add methods (more specifically the variable order).
       * This change was necessary to make polyline handling a bit more advanced. 
-    * Added addPolylineByCoordsArray and addPolylineByAddressArray methods 
-    * Removed references and everything dealing with Google Maps API key since keys are no longer necessary in V3 of the API!
-    * Removed tabs support for now (not part of V3 API)
+    * Added *addPolylineByCoordsArray* and *addPolylineByAddressArray* methods 
+    * *Removed* references and everything dealing with *Google Maps API key* since *keys are no longer necessary in V3* of the API!
+    * *Removed tabs support* for now (not part of V3 API)
       * Potential to reincorporate with jQuery UI tabs?
-    * Updated map type names to be compatible with V3 api.
-    * Updated icon/marker creation to use new methods/workflows.
-    * Update geocaching to use new Google Maps V3 geocoder.
+    * Updated *map type names* to be compatible with V3 api.
+    * *Updated icon/marker creation* to use new methods/workflows.
+    * Update *geocaching* to use new Google Maps V3 geocoder.
       * Updated to use JSON encoding vs. csv
       * New API no longer requires API key - http://code.google.com/apis/maps/documentation/geocoding/
-    * Updated automatic zoom fitting to use new map.fitBounds() API method.
-    * Updated order/rendering of javascript to coincide with the latest methods using options instead of multiple calls.
-  * Modified directions support (changed to directions "object" to allow instantiation of a map with directions parameters passed).  Adding get directions to an infowindow should be fairly simply using the supplied methods.   
-  * Modified custom icon support, replaced "addMarkerIcon" with addIcon and updateMarkerIconKey
+    * Updated automatic *zoom fitting* to use new *map.fitBounds()* API method.
+    * Updated *order/rendering* of javascript to coincide with the latest methods using options instead of multiple calls.
+  * *Modified directions support* 
+    * (changed to directions "object" to allow instantiation of a map with directions parameters passed).  
+    * Adding get directions to an infowindow should be fairly simple using the supplied methods.   
+  * *Modified custom icon support*
+    * replaced "addMarkerIcon" with addIcon and updateMarkerIconKey
     * Icons will now be explicitly defined when creating a marker using the icon (and shadow) file locations
     * You can also set a default icon file to use by setting $this->default_icon (and default_icon_shadow)
     * TODO:Add more support for creating custom markers (will wait and see what people think)
       * In order to pass all values for an icon instead of just the filename,you would have too call addIcon manually and pass the x parameters.  Then when you create the markers, you can simply pass the filename and the icon will already have been initialized with the custom vs. calculated values. 
-  * Added walking and biking directions support
-  * Added JSMin minification support.  Note- this means that in order to leave {{{$_minify_js}}} set to true (default), you must include JSMin.php as well.  I have included a copy of this library in the repository.
+  * Added *walking and biking directions* support
+  * Added *JSMin minification* support.  Note- this means that in order to leave {{{$_minify_js}}} set to true (default), you must include JSMin.php as well.  I have included a copy of this library in the repository.
+  * Added *multiple maps support*!  
+    * Added {{{$_display_js_functions}}} class variable so that you can control when the "helper" JS function definitions are displayed and when they shouldn't be.  If you have N maps, the every map object except the Nth map should set this variable to false.
+    * Updated JS function rendering to include the map id in variable name definitions to avoid namespacing conflicts with multiple maps.
+      * *NOTE* Be sure each map instance has a unique map_id, which is assigned during object instantiation.
+      * *Be Aware* 
+        * For single maps, you will want to be sure to always use the getOnLoad() function if you aren't already (i.e. <?=$obj->getOnLoad();?> vs {{{<body onLoad="onload();">}}} - I know I'm guilty of doing this, but in order to support multiple maps, this had to be done. 
+        * For multiple maps, you'll want to define your own onload function using the new getOnLoadFunction call, which returns the JS function names of the onload functions for each map.  
