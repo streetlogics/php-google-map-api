@@ -23,6 +23,3 @@
       * In order to pass all values for an icon instead of just the filename,you would have too call addIcon manually and pass the x parameters.  Then when you create the markers, you can simply pass the filename and the icon will already have been initialized with the custom vs. calculated values. 
   * Added walking and biking directions support
   * Added JSMin minification support.  Note- this means that in order to leave {{{$_minify_js}}} set to true (default), you must include JSMin.php as well.  I have included a copy of this library in the repository.
-  * Added google local search bar support (**Not currently in beta**)
-  * Added Google Maps Ad Manager support (**Not currently in beta**)
-  * Added Traffic Overlay Support (**Not currently in beta**)
