@@ -4,7 +4,8 @@
     * Update Polyline handling with new API v3 methods.
       * A new paramter ($id) was added in both of the polyline "add" methods.
       * Please make sure to update your apps that are using the add methods (more specifically the variable order).
-      * This change was necessary to make polyline handling a bit more advanced.  
+      * This change was necessary to make polyline handling a bit more advanced. 
+    * Added addPolylineByCoordsArray and addPolylineByAddressArray methods 
     * Removed references and everything dealing with Google Maps API key since keys are no longer necessary in V3 of the API!
     * Removed tabs support for now (not part of V3 API)
       * Potential to reincorporate with jQuery UI tabs?
