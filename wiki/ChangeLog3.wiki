@@ -19,11 +19,15 @@
     * Update *geocaching* to use new Google Maps V3 geocoder.
       * Updated to use JSON encoding vs. csv
       * New API no longer requires API key - http://code.google.com/apis/maps/documentation/geocoding/
+      * Added *geoGetCoordsFull* method to return entire geocode response.
+        * *NOTE* This new method does not use caching.  This can change if need be, but for now it always queries the API.
     * Updated automatic *zoom fitting* to use new *map.fitBounds()* API method.
     * Updated *order/rendering* of javascript to coincide with the latest methods using options instead of multiple calls.
   * *Modified directions support* 
     * (changed to directions "object" to allow instantiation of a map with directions parameters passed).  
-    * Adding get directions to an infowindow should be fairly simple using the supplied methods. See [http://www.bradwedell.com/phpgooglemapapi/demos/advanced_marker_directions.php demo]   
+    * $this->directions param is *deprecated*.  You should now just use $this->addDirections()
+    * Adding "get directions to/from here" to an infowindow should be fairly simple using the supplied methods. See [http://www.bradwedell.com/phpgooglemapapi/demos/advanced_marker_directions.php demo]
+      * I can add this support back in if need be/enough people request it.   
   * *Modified custom icon support*
     * replaced "addMarkerIcon" with addIcon and updateMarkerIconKey
     * Icons will now be explicitly defined when creating a marker using the icon (and shadow) file locations
