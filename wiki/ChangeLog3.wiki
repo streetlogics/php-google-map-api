@@ -1,6 +1,9 @@
 #labels Featured,Phase-Implementation
 ==Changes from 2.5==
   * Updated to use *Google Maps API v3*
+    * Added ability to *create maps for mobile devices* 
+      * Set *{{{$this->mobile=true}}}* to have [http://code.google.com/apis/maps/documentation/v3/basics.html#Mobile meta tag] rendered in the get header js call.
+      * Future updates will include ability to get user's location from GPS.
     * Update *Polyline handling* with new API v3 methods.
       * A new paramter ($id) was added in both of the polyline "add" methods.
       * Please make sure to update your apps that are using the add methods (more specifically the variable order).
@@ -20,7 +23,7 @@
     * Updated *order/rendering* of javascript to coincide with the latest methods using options instead of multiple calls.
   * *Modified directions support* 
     * (changed to directions "object" to allow instantiation of a map with directions parameters passed).  
-    * Adding get directions to an infowindow should be fairly simple using the supplied methods.   
+    * Adding get directions to an infowindow should be fairly simple using the supplied methods. See [http://www.bradwedell.com/phpgooglemapapi/demos/advanced_marker_directions.php demo]   
   * *Modified custom icon support*
     * replaced "addMarkerIcon" with addIcon and updateMarkerIconKey
     * Icons will now be explicitly defined when creating a marker using the icon (and shadow) file locations
