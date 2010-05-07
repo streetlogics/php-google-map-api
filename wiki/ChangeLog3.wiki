@@ -1,5 +1,4 @@
 #labels Featured,Phase-Implementation
-
 ==Changes from 2.5==
   * Updated to use *Google Maps API v3*
     * Added ability to *create maps for mobile devices* 
@@ -11,7 +10,7 @@
       * This change was necessary to make polyline handling a bit more advanced. 
     * Added *addPolylineByCoordsArray* and *addPolylineByAddressArray* methods 
     * *Removed* references and everything dealing with *Google Maps API key* since *keys are no longer necessary in V3* of the API!
-    * *Removed tabs support* for now (not part of V3 API)
+    * *Removed tabs support* for now (not part of official V3 Google Maps JS API anymore :( )
       * Potential to reincorporate with jQuery UI tabs?
     * Updated *map type names* to be compatible with V3 api.
     * *Updated icon/marker creation* to use new methods/workflows.
