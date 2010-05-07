@@ -11,6 +11,8 @@
       * Potential to reincorporate with jQuery UI tabs?
     * Updated *map type names* to be compatible with V3 api.
     * *Updated icon/marker creation* to use new methods/workflows.
+    * Added *addMarkerOpener* function to create *custom marker openers*
+      * The function takes a marker id (returned from add marker) and dom object id and then attaches an onclick (or onmouseover if you've switched the default action) to the given object and opens the marker's info window.
     * Update *geocaching* to use new Google Maps V3 geocoder.
       * Updated to use JSON encoding vs. csv
       * New API no longer requires API key - http://code.google.com/apis/maps/documentation/geocoding/
@@ -33,4 +35,4 @@
       * *NOTE* Be sure each map instance has a unique map_id, which is assigned during object instantiation.
       * *Be Aware* 
         * For single maps, you will want to be sure to always use the getOnLoad() function if you aren't already (i.e. <?=$obj->getOnLoad();?> vs {{{<body onLoad="onload();">}}} - I know I'm guilty of doing this, but in order to support multiple maps, this had to be done. 
-        * For multiple maps, you'll want to define your own onload function using the new getOnLoadFunction call, which returns the JS function names of the onload functions for each map.  
+        * For multiple maps, you'll want to define your own onload function using the new getOnLoadFunction call, which returns the JS function names of the onload functions for each map.
