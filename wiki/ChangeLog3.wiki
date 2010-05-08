@@ -1,9 +1,12 @@
 #labels Featured,Phase-Implementation
 ==Changes from 2.5==
   * Updated to use *Google Maps API v3*
+    * Added *KML Overlay* support - add KML/GeoRSS files utilizing the client side JS calls.
+      * Simply pass in a filename to any KML or GeoRSS file and you are on your way!
     * Added ability to *create maps for mobile devices* 
       * Set *{{{$this->mobile=true}}}* to have [http://code.google.com/apis/maps/documentation/v3/basics.html#Mobile meta tag] rendered in the get header js call.
       * Future updates will include ability to get user's location from GPS.
+      * Note: The new v3 Google Maps JS API is already catered towards mobile devices.  Just by setting width and height = 100%, any of the demos from the main page can be displayed on the most popular newer devices with JS support.  
     * Update *Polyline handling* with new API v3 methods.
       * A new paramter ($id) was added in both of the polyline "add" methods.
       * Please make sure to update your apps that are using the add methods (more specifically the variable order).
