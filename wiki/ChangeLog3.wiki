@@ -48,6 +48,6 @@
       * *Be Aware* 
         * For single maps, you will want to be sure to always use the getOnLoad() function if you aren't already (i.e. <?=$obj->getOnLoad();?> vs {{{<body onLoad="onload();">}}} - I know I'm guilty of doing this, but in order to support multiple maps, this had to be done. 
         * For multiple maps, you'll want to define your own onload function using the new getOnLoadFunction call, which returns the JS function names of the onload functions for each map.
-  * Added *{{{[http://google-maps-utility-library-v3.googlecode.com/svn/tags/markerclusterer/1.0/examples/advanced_example.html? MarkerClusterer]}}}* support.
+  * Added *[http://google-maps-utility-library-v3.googlecode.com/svn/tags/markerclusterer/1.0/examples/advanced_example.html? MarkerClusterer]* support.
     * I have also added the JS code for MarkerClusterer to the SVN repo as an svn:externals property linking to their SVN repo.  This in the "external" folder (it doesn't show up in the source tab, but if you checkout http://php-google-map-api.googlecode.com/svn/trunk/external/ , you will get the files)
     * See [http://www.bradwedell.com/phpgooglemapapi/demos/advanced_marker_clusterer.php the example] for implementation details. 
