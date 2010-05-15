@@ -51,3 +51,4 @@
   * Added *[http://google-maps-utility-library-v3.googlecode.com/svn/tags/markerclusterer/1.0/examples/advanced_example.html? MarkerClusterer]* support.
     * I have also added the JS code for MarkerClusterer to the SVN repo as an svn:externals property linking to their SVN repo.  This in the "external" folder (it doesn't show up in the source tab, but if you checkout http://php-google-map-api.googlecode.com/svn/trunk/external/ , you will get the files)
     * See [http://www.bradwedell.com/phpgooglemapapi/demos/advanced_marker_clusterer.php the example] for implementation details. 
+  * Add ability to choose between *buttons or dropdown* for map type navigation.
