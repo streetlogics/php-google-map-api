@@ -12,6 +12,7 @@
       * Please make sure to update your apps that are using the add methods (more specifically the variable order).
       * This change was necessary to make polyline handling a bit more advanced. 
     * Added *addPolylineByCoordsArray* and *addPolylineByAddressArray* methods 
+    * *05/15/2010* Added *addPolylineElevation* method (see [http://www.bradwedell.com/phpgooglemapapi/demos/simple_polyline_elevation.php example])
     * *Removed* references and everything dealing with *Google Maps API key* since *keys are no longer necessary in V3* of the API!
     * *Removed tabs support* for now (not part of official V3 Google Maps JS API anymore :( )
       * Potential to reincorporate with jQuery UI tabs?
