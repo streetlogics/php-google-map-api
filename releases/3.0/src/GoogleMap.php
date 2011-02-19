@@ -2165,7 +2165,7 @@ class GoogleMapAPI {
 			        map: map,
 			        title: title};  
 			    if(icon!=''){marker_options.icon = icon;}
-			    if(icon_shadow!=''){marker_options.icon_shadow = icon_shadow;}
+			    if(icon_shadow!=''){marker_options.shadow = icon_shadow;}
 			    //create marker
 			    var new_marker = new google.maps.Marker(marker_options);
 			    if(html!=''){
