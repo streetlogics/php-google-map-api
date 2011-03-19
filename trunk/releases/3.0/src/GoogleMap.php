@@ -177,6 +177,11 @@ class GoogleMapAPI {
      * @var bool
      */
     var $scale_control = true;
+    /**
+	  * class variable to control scrollwheel
+	  * @var bool
+	  */
+    var $scrollwheel = true; 
     
     /**
      * enables overview map control
@@ -670,6 +675,13 @@ class GoogleMapAPI {
         if(in_array($size,array('large','small')))
             $this->control_size = $size;
     }            
+
+    /**
+	 * disable mouse scrollwheel on Map
+	 */
+    function disableScrollWheel(){
+        $this->scrollwheel = false;
+    } 
 
      /**
      * enables the type controls (map/satellite/hybrid)
@@ -1783,6 +1795,7 @@ class GoogleMapAPI {
 			
 			$_script .= "
 				var mapOptions$_key = {
+					scrollwheel: ". ($this->scrollwheel?"true":"false") . ",
 					zoom: ".$this->zoom.",
 					mapTypeId: google.maps.MapTypeId.".$this->map_type.",
 					mapTypeControl: ".($this->type_controls?"true":"false").",
