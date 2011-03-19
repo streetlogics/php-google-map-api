@@ -29,7 +29,7 @@
  * maintains all original GNU software licenses.
  */
 /**
- * @link http://code.google.com/p/phpgooglemapapiv3/
+ * @link http://code.google.com/p/php-google-map-api/
  * @copyright 2010 Brad wedell
  * @author Brad Wedell
  * @package GoogleMapAPI (version 3)
@@ -1653,7 +1653,7 @@ class GoogleMapAPI {
         $_output .= "/*************************************************\n";
         $_output .= " * Created with GoogleMapAPI" . $this->_version . "\n";
         $_output .= " * Author: Brad Wedell <brad AT mycnl DOT com>\n";
-        $_output .= " * Link http://code.google.com/p/phpgooglemapapiv3/\n";
+        $_output .= " * Link http://code.google.com/p/php-google-map-api/\n";
         $_output .= " * Copyright 2010 Brad Wedell\n";
         $_output .= " * Original Author: Monte Ohrt <monte AT ohrt DOT com>\n";
         $_output .= " * Original Copyright 2005-2006 New Digital Group\n";
