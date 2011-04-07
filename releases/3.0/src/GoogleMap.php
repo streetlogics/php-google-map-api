@@ -156,6 +156,12 @@ class GoogleMapAPI {
      * @var bool
      */
     var $type_controls = true;
+    
+    /**
+     * determines unit system to use for directions, blank = default
+     * @var string (METRIC, IMPERIAL)
+     */
+    var $directions_unit_system = '';
 	
 	/**
 	 * sets default option for type controls(DEFAULT, HORIZONTAL_BAR, DROPDOWN_MENU)
@@ -2112,7 +2118,15 @@ class GoogleMapAPI {
 			if($this->avoid_highways==TRUE)
 			   $directionsParams .= ", \n avoidHighways: true";
 			if($this->avoid_tollways==TRUE)
-			   $directionsParams .= ", \n avoidTolls: true";			
+			   $directionsParams .= ", \n avoidTolls: true";
+
+			if($this->directions_unit_system!=''){
+			    if($this->directions_unit_system == 'METRIC'){
+			        $directionsParams .= ", \n unitSystem: google.maps.DirectionsUnitSystem.METRIC";
+			    }else{
+			        $directionsParams .= ", \n unitSystem: google.maps.DirectionsUnitSystem.IMPERIAL";
+			    }
+			}
 			
 			$_output .= "
 			    directions".$this->map_id."['$dom_id'] = {
