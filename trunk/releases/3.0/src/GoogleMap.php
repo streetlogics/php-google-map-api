@@ -470,6 +470,12 @@ class GoogleMapAPI {
      */
     var $use_suggest = false;
 
+    /** #)MS
+     * list of added polygon
+     *
+     * @var array
+     */
+    var $_polygons = array();
     
     /**
      * list of added polylines
@@ -1715,6 +1721,13 @@ class GoogleMapAPI {
 				";
 			}
 		}
+        //Polygons
+		if(!empty($this->_polygons)){
+			$_script .= "
+				var polygon$_key = [];
+				var polygonCoords$_key = [];
+			";
+		}
 		//Elevation stuff
 		if(!empty($this->_elevation_polylines)||(!empty($this->_directions)&&$this->elevation_directions)){
 			$_script .= "
@@ -1933,6 +1946,7 @@ class GoogleMapAPI {
 			$_script .= $this->getAddMarkersJS();
 			
 			$_script .= $this->getPolylineJS();
+			$_script .= $this->getPolygonJS();
 			$_script .= $this->getAddOverlayJS();
 			
 			if($this->_kml_overlays!==""){
@@ -2584,7 +2598,121 @@ class GoogleMapAPI {
       }
       
     }    
-    
-}
 
+    /** #)MS
+     * overridable function to generate polyline js - for now can only be used on a map, not a streetview
+     */
+    function getPolygonJS() {
+        $_output = '';
+        foreach($this->_polygons as $polygon_id => $_polygon) {
+        	$_coords_output = "";
+        	foreach($_polygon["coords"] as $_coords){
+				if($_coords_output != ""){$_coords_output.=",";}
+        		$_coords_output .= "
+        		    new google.maps.LatLng(".$_coords["lat"].", ".$_coords["long"].")
+        		";
+        	}
+        	$_output .= "
+        	   polygonCoords".$this->map_id."[$polygon_id] = [".$_coords_output."];    	
+			   polygon".$this->map_id."[$polygon_id] = new google.maps.Polygon({
+				  paths: polygonCoords".$this->map_id."[$polygon_id]
+				  ".(($_polygon['color']!="")?", strokeColor: '".$_polygon['color']."'":"")."
+				  ".(($_polygon['opacity']!=0)?", strokeOpacity: ".$_polygon['opacity']."":"")."
+				  ".(($_polygon['weight']!=0)?", strokeWeight: ".$_polygon['weight']."":"")."
+				  ".(($_polygon['fill_color']!="")?", fillColor: '".$_polygon['fill_color']."'":"")."
+				  ".(($_polygon['fill_opacity']!=0)?", fillOpacity: ".$_polygon['fill_opacity']."":"")."
+			  });			
+			  polygon".$this->map_id."[$polygon_id].setMap(map".$this->map_id.");
+        	";
+		}
+        return $_output;
+    }
+
+    /** #)MS
+     * adds a map polygon by map coordinates
+     * if color, weight and opacity are not defined, use the google maps defaults
+     * 
+     * @param string $lon1 the map longitude to draw from
+     * @param string $lat1 the map latitude to draw from
+     * @param string $lon2 the map longitude to draw to
+     * @param string $lat2 the map latitude to draw to
+     * @param string $id An array id to use to append coordinates to a line
+     * @param string $color the color of the border line (format: #000000)
+     * @param string $weight the weight of the line in pixels
+     * @param string $opacity the border line opacity (percentage)
+     * @param string $fill_color the polygon color (format: #000000)
+     * @param string $fill_opacity the polygon opacity (percentage)
+	 * @return string $id id of the created/updated polyline array
+     */
+    function addPolygonByCoords($lon1,$lat1,$lon2,$lat2,$id=false,$color='',$weight=0,$opacity=0,$fill_color='',$fill_opacity=0) {
+		if($id !== false && isset($this->_polygons[$id]) && is_array($this->_polygons[$id])){
+			$_polygon = $this->_polygons[$id];
+		}else{
+			//only set color,weight,and opacity if new polyline
+			$_polygon = array(
+				"color"=>$color,
+				"weight"=>$weight,
+				"opacity"=>$opacity,
+				"fill_color"=>$fill_color,
+				"fill_opacity"=>$fill_opacity,
+			);
+		}
+		if(!isset($_polygon['coords']) || !is_array($_polygon['coords'])){
+			$_polygon['coords'] = array(
+				"0"=> array("lat"=>$lat1, "long"=>$lon1),
+				"1"=> array("lat"=>$lat2, "long"=>$lon2)
+			);
+		}else{
+			$last_index = sizeof($_polygon['coords'])-1;
+			//check if lat1/lon1 point is already on polyline
+			if($_polygon['coords'][$last_index]["lat"] != $lat1 || $_polygon['coords'][$last_index]["long"]  != $lon1){
+				$_polygon['coords'][] = array("lat"=>$lat1, "long"=>$lon1);
+			}
+			$_polygon['coords'][] = array("lat"=>$lat2, "long"=>$lon2);
+		}
+        if($id === false){
+            $this->_polygons[] = $_polygon;
+            $id = count($this->_polygons) - 1;
+        }else{
+			$this->_polygons[$id] = $_polygon;
+        }
+        $this->adjustCenterCoords($lon1,$lat1);
+        $this->adjustCenterCoords($lon2,$lat2);
+        // return index of polyline
+        return $id;
+    }
+
+     /**#)MS
+     * adds polyline by passed array
+     * if color, weight and opacity are not defined, use the google maps defaults
+     * @param array $polyline_array array of lat/long coords
+     * @param string $id An array id to use to append coordinates to a line
+     * @param string $color the color of the line (format: #000000)
+     * @param string $weight the weight of the line in pixels
+     * @param string $opacity the line opacity (percentage)
+     * @param string $fill_color the polygon color (format: #000000)
+     * @param string $fill_opacity the polygon opacity (percentage)
+     * @return bool|int Array id of newly added point or false
+     */
+    function addPolygonByCoordsArray($polygon_array,$id=false,$color='',$weight=0,$opacity=0,$fill_color='',$fill_opacity=0){
+    	if(!is_array($polygon_array) || sizeof($polygon_array) < 3)
+    	   return false;
+    	$_prev_coords = "";
+    	$_next_coords = "";
+    	
+    	foreach($polygon_array as $_coords){
+    		$_prev_coords = $_next_coords;
+    		$_next_coords = $_coords;
+    		
+    		if($_prev_coords !== ""){
+    		  $_lt1=$_prev_coords["lat"];
+    		  $_ln1=$_prev_coords["long"];
+    		  $_lt2=$_next_coords["lat"];
+    		  $_ln2=$_next_coords["long"];
+    		  $id = $this->addPolygonByCoords($_ln1, $_lt1, $_ln2, $_lt2, $id, $color, $weight, $opacity, $fill_color, $fill_opacity);
+    		}
+    	}
+        return $id;
+    }
+}
 ?>
