@@ -56,3 +56,4 @@
     * See [http://www.bradwedell.com/phpgooglemapapi/demos/advanced_marker_clusterer.php the example] for implementation details. 
   * Add ability to choose between *buttons or dropdown* for map type navigation.
   * Added *street view controls* support!  Check out the [http://www.bradwedell.com/phpgooglemapapi/demos/simple_streetview.php demo] to see how easy it is!
+  * Added *Polygon* support
