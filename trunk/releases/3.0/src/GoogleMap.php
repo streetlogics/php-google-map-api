@@ -600,7 +600,7 @@ class GoogleMapAPI {
 	 * function to disable map display (used to display street view only)
 	 */
 	function disableMapDisplay(){
-		$this->display_map = true;
+		$this->display_map = false;
 	}
     
     /**
