@@ -94,11 +94,28 @@ class GoogleMapAPI {
     var $sidebar_id = null;    
     
     /**
+     * With this, you can append lang= and region= to the script url for localization. If Google adds more features in the future, they will be supported by default
+     *
+     * See http://code.google.com/apis/maps/documentation/javascript/basics.html#Localization
+     * for more info on Localization
+     *
+     * @var array
+     **/
+    var $api_options=null;
+    
+    /**
      * Whether to use new V3 mobile functionality
      *
      * @var bool
      */
     var $mobile=false;
+    
+    /**
+     * The viewport meta tag allows more values than these defaults; you can get more info here: http://www.html-5.com/metatags/index.html#viewport-meta-tag
+     *
+     * @var string
+     */
+    var $meta_viewport = "initial-scale=1.0, user-scalable=no";
     
     /**
      * DEPRECATED: Google now has geocoding service.  
@@ -1612,7 +1629,7 @@ class GoogleMapAPI {
 		$_headerJS = "";
         if( $this->mobile == true){
         	$_headerJS .= "
-        	   <meta name='viewport' content='initial-scale=1.0, user-scalable=no' />
+        	    <meta name='viewport' content='".$this->meta_viewport."' />
         	";
         }
 		if(!empty($this->_elevation_polylines)||(!empty($this->_directions)&&$this->elevation_directions)){
@@ -1623,8 +1640,14 @@ class GoogleMapAPI {
 				google.load('visualization', '1', {packages: ['columnchart']});
 			</script>";
 		}
-        $_headerJS .= "<script type='text/javascript' src='http://maps.google.com/maps/api/js?sensor=".(($this->mobile==true)?"true":"false")."'></script>";
-		if($this->marker_clusterer){
+        $scriptUrl = "http://maps.google.com/maps/api/js?sensor=".(($this->mobile==true)?"true":"false");
+        if( is_array( $this->api_options ) ) {
+            foreach( $this->api_options as $key => $value ){
+                $scriptUrl .= '&'.$key.'='.$value;
+            }
+        }
+        $_headerJS .= "<script type='text/javascript' src='".$scriptUrl."'></script>";
+        if($this->marker_clusterer){
 			$_headerJS .= "<script type='text/javascript' src='".$this->marker_clusterer_location."' ></script>";
 		}        
         if($this->local_search){/*TODO: Load Local Search API V3 when available*/}   
@@ -1652,7 +1675,7 @@ class GoogleMapAPI {
      * return js to set onload function
      */
     function getOnLoad() {
-        return '<script language="javascript" type="text/javascript" charset="utf-8">window.onload=onLoad'.$this->map_id.';</script>';                       
+        return '<script type="text/javascript">window.onload=onLoad'.$this->map_id.';</script>';                       
     }
     
     /**
