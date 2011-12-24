@@ -58,6 +58,13 @@ CREATE TABLE GEOCODES (
 class GoogleMapAPI {
 
     /**
+     * contains any map styles in a json string
+     *
+     * @var string json $map_styles
+     */
+    var $map_styles = true; 	
+
+    /**
      * PEAR::DB DSN for geocode caching. example:
      * $dsn = 'mysql://user:pass@localhost/dbname';
      *
@@ -661,6 +668,16 @@ class GoogleMapAPI {
     function setZoomLevel($level) {
         $this->zoom = (int) $level;
     }    
+    
+    
+    /**
+     * sets any map styles ( style wizard: http://gmaps-samples-v3.googlecode.com/svn/trunk/styledmaps/wizard/index.html )
+     *
+     * @param string $styles json string of the map styles to be applied
+     */
+    function setMapStyles($styles) {
+        $this->map_styles = (string) $styles;
+    }       
             
     /**
      * enables the map controls (zoom/move)
@@ -1583,7 +1600,7 @@ class GoogleMapAPI {
      * print map header javascript (goes between <head></head>)
      * 
      */
-    function printHeaderJS() {
+    function printHeaderJS() { 
         echo $this->getHeaderJS();
     }
     
@@ -1591,7 +1608,7 @@ class GoogleMapAPI {
      * return map header javascript (goes between <head></head>)
      * 
      */
-    function getHeaderJS() {
+    function getHeaderJS() { 
 		$_headerJS = "";
         if( $this->mobile == true){
         	$_headerJS .= "
@@ -1671,6 +1688,11 @@ class GoogleMapAPI {
         $_output .= " * Original Copyright 2005-2006 New Digital Group\n";
         $_output .= " * Originial Link http://www.phpinsider.com/php/code/GoogleMapAPI/\n";
         $_output .= " *************************************************/\n";
+        
+        // create global info window ( so we can auto close it )
+        $_script .= "var infowindow = new google.maps.InfoWindow();";
+			        
+        
 		if($this->street_view_dom_id!=""){
 			$_script .= "
 				var panorama".$this->street_view_dom_id."$_key = '';
@@ -1838,8 +1860,23 @@ class GoogleMapAPI {
 				";
 			}
 			
+			
+			// Add any map styles if they are present
+			if( isset($this->map_styles) ) {
+			
+				$_script .= "
+						var styles$_key = ".$this->map_styles.";		
+				";
+			}
+			
+			
+			
 			$_script .= "
 				map$_key = new google.maps.Map(mapObj$_key,mapOptions$_key);
+			";
+			
+			$_script .= "
+				map$_key.setOptions({styles: styles$_key});
 			";
 				
 			if($this->street_view_dom_id!=""){
@@ -2207,18 +2244,29 @@ class GoogleMapAPI {
 			        title: title};  
 			    if(icon!=''){marker_options.icon = icon;}
 			    if(icon_shadow!=''){marker_options.shadow = icon_shadow;}
+			    
 			    //create marker
 			    var new_marker = new google.maps.Marker(marker_options);
 			    if(html!=''){
 					".(($this->info_window)?"
-			        var infowindow = new google.maps.InfoWindow({content: html});
+			        
 			        google.maps.event.addListener(new_marker, '".$this->window_trigger."', function() {
-			          infowindow.open(map,new_marker);
+			          	infowindow.close();	
+			          	infowindow.setContent(html);
+			          	infowindow.open(map,new_marker);
 			        });
+			        
 					if(openers != ''&&!isEmpty(openers)){
 			           for(var i in openers){
 			             var opener = document.getElementById(openers[i]);
-			             opener.on".$this->window_trigger." = function(){infowindow.open(map,new_marker); return false};
+			             opener.on".$this->window_trigger." = function() { 
+			             
+			             	infowindow.close();
+			             	infowindow.setContent(html);
+			             	infowindow.open(map,new_marker); 
+			             	
+			          		return false;			             	
+			             };
 			           }
 			        }
 					":"")."
