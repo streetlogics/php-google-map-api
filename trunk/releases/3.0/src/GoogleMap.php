@@ -30,7 +30,7 @@
  */
 /**
  * @link http://code.google.com/p/php-google-map-api/
- * @copyright 2010 Brad wedell
+ * @copyright 2010-2012 Brad wedell
  * @author Brad Wedell
  * @package GoogleMapAPI (version 3)
  * @version 3.0beta
@@ -1706,7 +1706,7 @@ class GoogleMapAPI {
         $_output .= " * Created with GoogleMapAPI" . $this->_version . "\n";
         $_output .= " * Author: Brad Wedell <brad AT mycnl DOT com>\n";
         $_output .= " * Link http://code.google.com/p/php-google-map-api/\n";
-        $_output .= " * Copyright 2010 Brad Wedell\n";
+        $_output .= " * Copyright 2010-2012 Brad Wedell\n";
         $_output .= " * Original Author: Monte Ohrt <monte AT ohrt DOT com>\n";
         $_output .= " * Original Copyright 2005-2006 New Digital Group\n";
         $_output .= " * Originial Link http://www.phpinsider.com/php/code/GoogleMapAPI/\n";
