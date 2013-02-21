@@ -341,6 +341,9 @@ class GoogleMapAPI {
      * @deprecated
      */
     var $directions = true;
+    
+      /* waypoints  */
+	  protected  $_waypoints_string = '';
 
     /**
      * determines if map markers bring up an info window
@@ -854,6 +857,24 @@ class GoogleMapAPI {
 			} 
         }
     }
+    
+ 
+ function addWaypoints($lat, $lon, $stopover = TRUE)
+ {
+   if( ! empty($this->_waypoints_string) )  $this->_waypoints_string .= ",";
+     $tmp_stopover =  $stopover?'true':'false';
+     $this->_waypoints_string .= "{location: new google.maps.LatLng({$lat},{$lon}), stopover: {$tmp_stopover}}";
+ }
+
+  function addWaypointByAddress($address,$stopover = TRUE)
+  {
+     if( $tmp_geocode = $this->getGeocode($address))
+     {
+       $this->addWaypoints($tmp_geocode['lat'], $tmp_geocode['lon'], $stopover);
+     }
+ }
+            
+            
         
     /**
      * enables the type controls (map/satellite/hybrid)
@@ -2207,6 +2228,7 @@ class GoogleMapAPI {
 					displayRenderer:new google.maps.DirectionsRenderer(),
 					directionService:new google.maps.DirectionsService(),
 					request:{
+            					waypoints: [{$this->_waypoints_string}],
 						origin: '".$directions["start"]."',
 						destination: '".$directions["dest"]."'
 						$directionsParams
