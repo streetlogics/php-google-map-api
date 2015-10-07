@@ -1,0 +1,10 @@
+{
+    "name": "streetlogics/php-google-map-api",
+    "description": "Google Maps API library",
+    "authors": [
+        {
+            "name": "Brad Wedell"
+        }
+    ],
+    "require": {}
+}
