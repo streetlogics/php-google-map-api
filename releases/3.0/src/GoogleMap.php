@@ -605,6 +605,27 @@ class GoogleMapAPI {
 	 var $_minify_js = true;
         
     /**
+     * If false, prevents the map from being dragged. Dragging is enabled by default.
+     * @var bool
+     * Added 02/10/2013 by Yao Wu
+     */
+    var $draggable = true;
+
+    /**
+     * The maximum zoom level which will be displayed on the map. If omitted, or set to null, the
+     * maximum zoom from the current map type is used instead.
+     * Added 02/10/2013 by Yao Wu
+     */
+    var $max_zoom = "null";
+
+    /**
+     * The minimum zoom level which will be displayed on the map. If omitted, or set to null, the
+     * minimum zoom from the current map type is used instead.
+     * Added 02/10/2013 by Yao Wu
+     */
+    var $min_zoom = "null";
+
+    /**
      * class constructor
      *
      * @param string $map_id the DOM element ID for the map
@@ -828,6 +849,30 @@ class GoogleMapAPI {
         $this->avoid_tolls = false;
     }
     
+    /**
+     * sets the max zoom
+     * Added 02/10/2013 by Yao Wu
+     */
+    function setMaxZoom($zoom) {
+        $this->max_zoom = (int) $zoom;
+    }
+
+    /**
+     * sets the min zoom
+     * Added 02/10/2013 by Yao Wu
+     */
+    function setMinZoom($zoom) {
+        $this->min_zoom = (int) $zoom;
+    }
+
+    /**
+     * set true or flase for draggable
+     * Added 02/10/2013 by Yao Wu
+     */
+    function disabledraggable() {
+        $this->draggable = "false";
+    }
+
     /**
      * Add directions route to the map and adds text directions container with id=$dom_id
      *
@@ -1882,6 +1927,9 @@ class GoogleMapAPI {
 				var mapOptions$_key = {
 					scrollwheel: ". ($this->scrollwheel?"true":"false") . ",
 					zoom: ".$this->zoom.",
+					draggable: ".$this->draggable.",
+					maxZoom: ".$this->max_zoom.",
+					minZoom: ".$this->min_zoom.",
 					mapTypeId: google.maps.MapTypeId.".$this->map_type.",
 					mapTypeControl: ".($this->type_controls?"true":"false").",
 					mapTypeControlOptions: {style: google.maps.MapTypeControlStyle.".$this->type_controls_style."}
