@@ -1654,14 +1654,14 @@ class GoogleMapAPI {
         	";
         }
 		if(!empty($this->_elevation_polylines)||(!empty($this->_directions)&&$this->elevation_directions)){
-			$_headerJS .= "<script type='text/javascript' src='http://www.google.com/jsapi'></script>";
+			$_headerJS .= "<script type='text/javascript' src='//www.google.com/jsapi'></script>";
 			$_headerJS .= "
 			<script type='text/javascript'>
 				// Load the Visualization API and the piechart package.
 				google.load('visualization', '1', {packages: ['columnchart']});
 			</script>";
 		}
-        $scriptUrl = "http://maps.google.com/maps/api/js?sensor=".(($this->mobile==true)?"true":"false");
+        $scriptUrl = "//maps.google.com/maps/api/js?sensor=".(($this->mobile==true)?"true":"false");
         if( is_array( $this->api_options ) ) {
             foreach( $this->api_options as $key => $value ){
                 $scriptUrl .= '&'.$key.'='.$value;
@@ -2424,7 +2424,7 @@ class GoogleMapAPI {
 					elevation_data.marker = new google.maps.Marker({
 					  position: charts_array[elevation_data.selector].results[e.row].location,
 					  map: map,
-					  icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
+					  icon: '//maps.google.com/mapfiles/ms/icons/green-dot.png'
 					});
 				}else{
 					elevation_data.marker.setPosition(charts_array[elevation_data.selector].results[e.row].location);
@@ -2584,7 +2584,7 @@ class GoogleMapAPI {
     function geoGetCoords($address,$depth=0) {
         switch($this->lookup_service) {
             case 'GOOGLE':
-                $_url = sprintf('http://%s/maps/api/geocode/json?sensor=%s&address=%s',$this->lookup_server['GOOGLE'], $this->mobile==true?"true":"false", rawurlencode($address));
+                $_url = sprintf('//%s/maps/api/geocode/json?sensor=%s&address=%s',$this->lookup_server['GOOGLE'], $this->mobile==true?"true":"false", rawurlencode($address));
                 $_result = false;
                 if($_result = $this->fetchURL($_url)) {
                     $_result_parts = json_decode($_result);
@@ -2597,7 +2597,7 @@ class GoogleMapAPI {
                 break;
             case 'YAHOO':
             default:        
-                $_url = sprintf('http://%s/MapsService/V1/geocode?appid=%s&location=%s',$this->lookup_server['YAHOO'],$this->app_id,rawurlencode($address));
+                $_url = sprintf('//%s/MapsService/V1/geocode?appid=%s&location=%s',$this->lookup_server['YAHOO'],$this->app_id,rawurlencode($address));
                 $_result = false;
                 if($_result = $this->fetchURL($_url)) {
                     preg_match('!<Latitude>(.*)</Latitude><Longitude>(.*)</Longitude>!U', $_result, $_match);
@@ -2620,7 +2620,7 @@ class GoogleMapAPI {
     function geoGetCoordsFull($address,$depth=0) {
         switch($this->lookup_service) {
             case 'GOOGLE':
-                $_url = sprintf('http://%s/maps/api/geocode/json?sensor=%s&address=%s',$this->lookup_server['GOOGLE'], $this->mobile==true?"true":"false", rawurlencode($address));
+                $_url = sprintf('//%s/maps/api/geocode/json?sensor=%s&address=%s',$this->lookup_server['GOOGLE'], $this->mobile==true?"true":"false", rawurlencode($address));
                 $_result = false;
                 if($_result = $this->fetchURL($_url)) {
                     return json_decode($_result);
@@ -2628,7 +2628,7 @@ class GoogleMapAPI {
                 break;
             case 'YAHOO':
             default:        
-                $_url = 'http://%s/MapsService/V1/geocode';
+                $_url = '//%s/MapsService/V1/geocode';
                 $_url .= sprintf('?appid=%s&location=%s',$this->lookup_server['YAHOO'],$this->app_id,rawurlencode($address));
                 $_result = false;
                 if($_result = $this->fetchURL($_url)) {
