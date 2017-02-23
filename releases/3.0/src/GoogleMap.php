@@ -626,6 +626,12 @@ class GoogleMapAPI {
     var $min_zoom = "null";
 
     /**
+     * API key, required by Google, https://developers.google.com/maps/documentation/javascript/get-api-key
+     * Added 2016-10-25
+     */
+    var $api_key = '';
+
+    /**
      * class constructor
      *
      * @param string $map_id the DOM element ID for the map
@@ -863,6 +869,13 @@ class GoogleMapAPI {
      */
     function setMinZoom($zoom) {
         $this->min_zoom = (int) $zoom;
+    }
+
+    /**
+     * sets the API key
+     */
+    function setApiKey($key) {
+        $this->api_key = $key;
     }
 
     /**
@@ -1706,7 +1719,7 @@ class GoogleMapAPI {
 				google.load('visualization', '1', {packages: ['columnchart']});
 			</script>";
 		}
-        $scriptUrl = "//maps.google.com/maps/api/js?sensor=".(($this->mobile==true)?"true":"false");
+        $scriptUrl = "//maps.google.com/maps/api/js?" . ($this->api_key ? "key=".$this->api_key."&" : "") . "sensor=".(($this->mobile==true)?"true":"false");
         if( is_array( $this->api_options ) ) {
             foreach( $this->api_options as $key => $value ){
                 $scriptUrl .= '&'.$key.'='.$value;
