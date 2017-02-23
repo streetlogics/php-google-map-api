@@ -1959,11 +1959,16 @@ class GoogleMapAPI {
 			}   
 			
 			if($this->street_view_controls){
-				$_script .= "
-					mapOptions".$_key.".streetViewControl= true;
+                		$_script .= "
+					mapOptions".$_key.".streetViewControl = true;
 	
 				";
-			}
+            		} else {
+                		$_script .= "
+					mapOptions".$_key.".streetViewControl = false;
+	
+				";
+            		}
 			
 			
 			// Add any map styles if they are present
