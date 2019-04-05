@@ -917,14 +917,14 @@ class GoogleMapAPI {
     }
     
  
- function addWaypoints($lat, $lon, $stopover = TRUE)
+ function addWaypoints($lat, $lon, $stopover = true)
  {
    if( ! empty($this->_waypoints_string) )  $this->_waypoints_string .= ",";
      $tmp_stopover =  $stopover?'true':'false';
      $this->_waypoints_string .= "{location: new google.maps.LatLng({$lat},{$lon}), stopover: {$tmp_stopover}}";
  }
 
-  function addWaypointByAddress($address,$stopover = TRUE)
+  function addWaypointByAddress($address,$stopover = true)
   {
      if( $tmp_geocode = $this->getGeocode($address))
      {
@@ -2269,16 +2269,16 @@ class GoogleMapAPI {
 			$dom_id = $directions["dom_id"];			
 			$travelModeParams = array();
 			$directionsParams = "";         
-			if($this->walking_directions==TRUE)
+			if($this->walking_directions==true)
 				$directionsParams .= ", \n travelMode:google.maps.DirectionsTravelMode.WALKING";
-			else if($this->biking_directions==TRUE)
+			else if($this->biking_directions==true)
 				$directionsParams .= ", \n travelMode:google.maps.DirectionsTravelMode.BICYCLING";
 			else
 				$directionsParams .= ", \n travelMode:google.maps.DirectionsTravelMode.DRIVING";
 		   
-			if($this->avoid_highways==TRUE)
+			if($this->avoid_highways==true)
 			   $directionsParams .= ", \n avoidHighways: true";
-			if($this->avoid_tollways==TRUE)
+			if($this->avoid_tollways==true)
 			   $directionsParams .= ", \n avoidTolls: true";
 
 			if($this->directions_unit_system!=''){
